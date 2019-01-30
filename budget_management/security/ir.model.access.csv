@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_direct_labour_id,access_direct_labour,model_direct_labour,,1,1,1,1
+access_dl_message_id,access_request_message,model_dl_message,,1,1,1,1
+access_dl_refused_wizard_id,access_dl_refused_wizard,model_dl_refused_wizard,,1,1,1,1

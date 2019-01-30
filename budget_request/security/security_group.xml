@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+
+<odoo>
+    <data noupdate="0">
+
+        <!--<record model="ir.module.category" id="category_imprestx">
+           <field name="name">Imprest</field>
+           <field name="description">Imprest Module</field>
+           <field name="sequence">30</field>
+        </record>
+
+        <record id="group_imprest_xx_pm" model="res.groups">
+            <field name="name">PM</field>
+            <field name="category_id" ref="category_imprestx"></field>
+        </record>
+        <record id="group_imprest_xx_manager" model="res.groups">
+            <field name="name">GM</field>
+            <field name="category_id" ref="category_imprestx" />
+        </record>
+
+
+        <record id="group_imprest_xx_coo" model="res.groups">
+            <field name="name">CEO</field>
+
+            <field name="category_id" ref="category_imprestx" />
+        </record>
+
+        <record id="group_imprest_xx_account" model="res.groups">
+            <field name="name">Accounts</field>
+            <field name="category_id" ref="category_imprestx" />
+        </record>
+
+        <record id="group_imprest_xx_admin" model="res.groups">
+            <field name="name">Settings</field>
+            <field name="category_id" ref="category_imprestx" />
+        </record>
+    </data>
+
+-->
+    <data noupdate="0">
+
+
+        <record id="administrator_see_all_memo_request" model="ir.rule">
+            <field name="name">Material Request See All</field>
+            <field name="model_id" ref="model_material_request"/>
+            <field name="groups" eval="[(6, 0 , [ref('base.group_system')])]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="material_employee_see_own_rule" model="ir.rule">
+            <field name="name">Material Request Employee Access</field>
+            <field name="model_id" ref="model_material_request"/>
+            <field name="groups" eval="[(6, 0 , [ref('internal_memo_test.group_memo_xx_emp'),ref('internal_memo_test.group_memo_xx_emp')])]"/>
+            <field name="domain_force">[('employee_id.user_id.id','=', user.id)]</field>
+        </record>
+
+
+        <record id="gm_material_request" model="ir.rule">
+            <field name="name">Material Request Managers Rule</field>
+            <field name="model_id" ref="model_material_request"/>
+            <field name="groups" eval="[(6, 0 , [ref('internal_memo_test.group_memo_xx_manager'),ref('purchase.group_purchase_manager')])]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+
+    </data>
+</odoo>

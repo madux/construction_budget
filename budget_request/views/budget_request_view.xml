@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    <record id="budget_request_action" model="ir.actions.act_window">
+        <field name="name"> Budget Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">budget.requestz</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar</field>
+
+        <field name="search_view_id" eval="False"/> <!-- Force empty -->
+        <field name="view_id" eval="False"/> <!-- Force empty -->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to Create a Budget for Material and Labour.
+          </p><p>
+            .<br/>
+            A
+          </p>
+        </field>
+    </record>
+    <record id="budget_material_request_action" model="ir.actions.act_window">
+        <field name="name">budget.material.request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">budget.material.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+
+        <field name="search_view_id" eval="False"/> <!-- Force empty -->
+        <field name="view_id" eval="False"/> <!-- Force empty -->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+           Click to Create a Budget for Material
+          </p><p>
+
+            ###
+          </p>
+        </field>
+    </record>
+
+    <record id="budget_labour_request_action" model="ir.actions.act_window">
+        <field name="name">Labour Budget Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">budget.labour.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+
+        <field name="search_view_id" eval="False"/> <!-- Force empty -->
+        <field name="view_id" eval="False"/> <!-- Force empty -->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to Create Record.
+          </p><p>
+
+            ###
+          </p>
+        </field>
+    </record>
+
+
+
+
+
+
+
+
+<record id="budget_requestz_form" model="ir.ui.view">
+    <field name="name">budget.requestz.form</field>
+    <field name="model">budget.requestz</field>
+    <field name="arch" type="xml">
+    <form string="Budget">
+        <header>
+            <button name="confirm_budget" states="draft" string="Submit Plan" type="object" />
+
+                    <button name="validate_budget" states="confirm" string="Validate" type="object" />
+                    <!--<button name="done_button" states="validate" string="Done" type="object" />-->
+
+                    <button name="cancel_budget" states="validate,confirm" string="Cancel" type="object" />
+                    <button name="set_draft_budget" states="cancel" string="Set to draft" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate" readonly="1"/>
+                </header>
+                <sheet>
+                <div class="oe_title">
+                        <label string="Name"/>
+                        <h1>
+                            <field name="name" readonly="0"/>
+                        </h1>
+                </div>
+
+                        <group>
+                            <group>
+
+                                <field name="creating_user_id"/>
+                                <field name="budget_ref"/>
+                                <field name="boq_id"/>
+                                <field name="budget_cost_total"/>
+                            </group>
+                            <group>
+
+                                <field name="approve_date"/>
+                                <field name="total_work_complete" invisible="0"/>
+                                <field name="actual_work_complete" invisible="0"/>
+
+                                <field name="amount_cost" invisible="0"/>
+                                <field name="actual_cost_total" invisible="0"/>
+                                <field name="var_outstanding" invisible="0"/>
+
+                            </group>
+
+                        </group>
+
+                        <notebook>
+
+                        <page string="Material &amp; Labour Budget">
+                        <separator string="Material Request" colspan="4"/>
+                        <field name="budget_mat_lines">
+                            <tree string="Material Request Lines" editable="bottom">
+                                    <field name="name" invisible="0" required = "1"/>
+                                    <field name="project_name" invisible="0" required = "1" widget="many2many_tags"/>
+                                    <field name="product_id" invisible="0" required = "1"/>
+                                     <field name="budget_cost" invisible="0" required = "1" sum ="Budget Cost"/>
+                                    <field name="actual_cost" invisible="0" required = "1" sum ="Actual Cost"/>
+                                    <field name="actual_quantity" readonly="0" sum ="Actual Quantity"/>
+                                    <field name="request_quantity" sum ="Requested Quantity"/>
+                                    <field name="used_quantity" sum ="Used Quantity"/>
+                                    <field name="difference" sum ="Difference"/>
+                                    <field name="amount_cost" sum ="Amount Cost"/>
+
+                                    <field name="quantity_rem" sum ="Remaining Quantity"/>
+                                    <field name="approve_date"/>
+                                </tree>
+                        </field>
+                        <separator string="Labour Request" colspan="4"/>
+                        <field name="budget_lab_lines">
+                            <tree string="Labour Request">
+
+                                    <field name="name" invisible="0" required = "1"/>
+
+                                    <field name="activity" required="1"/>
+                                    <field name="budget_cost" sum ="Budget Cost"/>
+                                    <field name="work_complete" sum ="(%) Work Completed"/>
+                                    <field name="actual_cost" sum ="Actual Cost" readonly="0"/>
+                                    <field name="amount_cost" sum ="Amount Cost"/>
+                                    <field name="outstanding" sum ="Outstanding"/>
+                                    <field name="difference"/>
+                               </tree>
+
+                        </field>
+                        </page>
+                        </notebook>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fin_plan_view_tree">
+            <field name="name">budget.requestz.tree</field>
+            <field name="model">budget.requestz</field>
+            <field name="arch" type="xml">
+               <tree string="Plan">
+                    <field name="name" readonly="0"/>
+                    <field name="creating_user_id"/>
+                    <field name="approve_date"/>
+                    <field name="approve_date"/>
+                                <field name="total_work_complete" invisible="0"/>
+
+                    <field name="budget_cost_total"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+         <record id="budget_requestz_search" model="ir.ui.view">
+           <field name="name">budget.requestz.search</field>
+           <field name="model">budget.requestz</field>
+           <field name="arch" type="xml">
+               <search string="Budget Request">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <field name="approve_date"/>
+                    <filter string="Draft" domain="[('state','=','draft')]" help="Drafts"/>
+                    <filter string="To Approve" domain="[('state','=','confirm')]" help="To Approve plans" />
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="budget_requestz_calendar">
+            <field name="name">budget.requestz.calendar</field>
+            <field name="model">budget.requestz</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="approve_date">
+                    <field name="name"/>
+                    <field name="actual_cost_total" widget="monetary"/>
+                </calendar>
+            </field>
+        </record>
+
+    <menuitem id="mat_lab_request_menu" name = "Budget Request" sequence="3"
+             parent="budget_management.main_master_view_id"/>
+             <menuitem id="mat_lab_budget_view_id" name = "Material/Labour Budget" sequence="1"
+             parent="mat_lab_request_menu" action="budget_request_action"/>
+
+
+
+        </data>
+        <data>
+            <record id="seqbudreq_sequence" model="ir.sequence">
+                <field name="name">budget.requestz</field>
+                <field name="code">budget.requestz</field>
+                <field name="prefix">REQ/</field>
+                <field name="padding">5</field>
+            </record>
+            <!--<record id="seq_building_budget" model="ir.sequence">
+                <field name="name">building.budget</field>
+                <field name="code">building.budget</field>
+                <field name="prefix">BB/</field>
+                <field name="padding">5</field>
+            </record>-->
+        </data>
+
+</odoo>
+
